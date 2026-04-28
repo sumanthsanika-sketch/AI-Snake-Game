@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: "Press Start 2P", cursive;
+  --font-vt: "VT323", monospace;
+  --color-cyan: #00ffff;
+  --color-magenta: #ff00ff;
+  --color-dark: #0a0a0a;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: var(--color-cyan);
+  font-family: var(--font-vt);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+@layer utilities {
+  .bg-glitch-pattern {
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.05) 2px, rgba(0, 255, 255, 0.05) 4px);
+  }
+
+  .glitch-text {
+    position: relative;
+    color: var(--color-cyan);
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-magenta);
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+  }
+
+  .glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-cyan);
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+  }
+
+  .static-noise {
+    background-image: repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%);
+    background-size: 100% 100%;
+    opacity: 0.05;
+    pointer-events: none;
+    animation: crt-flicker 0.15s infinite;
+  }
+
+  .screen-tear {
+    animation: screen-tearing 4s infinite linear;
+  }
+
+  .scanline-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 255, 255, 0.3);
+    opacity: 0.4;
+    animation: scanline 4s linear infinite;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .btn-glitch {
+    background-color: transparent;
+    border: 2px solid var(--color-cyan);
+    color: var(--color-cyan);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+  }
+  
+  .btn-glitch:hover {
+    background-color: var(--color-magenta);
+    color: var(--color-dark);
+    border-color: var(--color-magenta);
+    box-shadow: 4px 4px 0px var(--color-cyan);
+    transform: translate(-2px, -2px);
+    animation: block-flicker 0.2s infinite;
+  }
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(6px, 9999px, 86px, 0); }
+  10% { clip: rect(100px, 9999px, 56px, 0); }
+  20% { clip: rect(81px, 9999px, 11px, 0); }
+  30% { clip: rect(15px, 9999px, 81px, 0); }
+  40% { clip: rect(88px, 9999px, 47px, 0); }
+  50% { clip: rect(43px, 9999px, 63px, 0); }
+  60% { clip: rect(33px, 9999px, 4px, 0); }
+  70% { clip: rect(96px, 9999px, 10px, 0); }
+  80% { clip: rect(82px, 9999px, 73px, 0); }
+  90% { clip: rect(16px, 9999px, 86px, 0); }
+  100% { clip: rect(21px, 9999px, 6px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  10% { clip: rect(79px, 9999px, 85px, 0); }
+  20% { clip: rect(67px, 9999px, 61px, 0); }
+  30% { clip: rect(1px, 9999px, 66px, 0); }
+  40% { clip: rect(23px, 9999px, 98px, 0); }
+  50% { clip: rect(71px, 9999px, 75px, 0); }
+  60% { clip: rect(30px, 9999px, 16px, 0); }
+  70% { clip: rect(41px, 9999px, 62px, 0); }
+  80% { clip: rect(47px, 9999px, 73px, 0); }
+  90% { clip: rect(26px, 9999px, 55px, 0); }
+  100% { clip: rect(38px, 9999px, 49px, 0); }
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.05; }
+  20% { opacity: 0.1; }
+  40% { opacity: 0.03; }
+  60% { opacity: 0.08; }
+  80% { opacity: 0.05; }
+  100% { opacity: 0.02; }
+}
+
+@keyframes block-flicker {
+  0% { transform: translate(-2px, -2px); }
+  50% { transform: translate(0, 0); }
+  100% { transform: translate(-2px, 2px); }
+}
+
+@keyframes screen-tearing {
+  0% { transform: translateX(0); }
+  45% { transform: translateX(0); }
+  50% { transform: translateX(-5px) skewX(5deg); }
+  55% { transform: translateX(5px) skewX(-5deg); filter: blur(2px); }
+  60% { transform: translateX(0); filter: blur(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
